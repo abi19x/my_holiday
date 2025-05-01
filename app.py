@@ -44,9 +44,18 @@ def create_app():
         return render_template("register.html")
 
     # Login page
-    @app.route('/login')
+    @app.route("/login", methods=["GET", "POST"])
     def login():
-        return render_template('login.html')
+        if request.method == "POST":
+            email = request.form["email"]
+            password = request.form["password"]
+            # TODO: Validate user against database
+            if email and password:
+                return render_template("login_success.html", email=email)
+            else:
+                return "Invalid credentials", 401
+
+        return render_template("login.html")
     
     # New-booking page
     @app.route("/new_booking")
