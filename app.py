@@ -13,7 +13,7 @@ from routes.admin import admin_bp
 
 from werkzeug.security import check_password_hash
 from models.db import get_user_by_email
-from models.booking import get_user_bookings, create_booking
+from models.booking import get_user_bookings, create_booking, get_all_bookings, update_booking_status
 
 #def create_app():
  #   app = Flask(__name__)
@@ -66,6 +66,8 @@ def create_app():
                 session["user_email"] = user[2]
                 session["user_name"] = user[1]
                 session["user_id"] = user[0] 
+                session["is_admin"] = (user["email"] == "admin@example.com")  # Example check
+
                 return redirect("/dashboard")
             else:
                 return "Invalid credentials", 401
@@ -104,8 +106,22 @@ def create_app():
         return render_template("new_booking.html")
     
     # Admin-dashboard page
-    @app.route("/admin_dashboard")
+    @app.route("/admin", methods=["GET", "POST"])
     def admin_dashboard():
-        return render_template("admin_dashboard.html")
+        if not session.get("is_admin"):
+            return redirect("/login")
+
+        bookings = get_all_bookings(app.config["DATABASE_URL"])
+        return render_template("admin_dashboard.html", bookings=bookings)
+
+    # Admin update
+    @app.post("/admin/update/<int:booking_id>")
+    def update_booking(booking_id):
+        if not session.get("is_admin"):
+            return redirect("/login")
+        
+        new_status = request.form["status"]
+        update_booking_status(booking_id, new_status, app.config["DATABASE_URL"])
+        return redirect("/admin")
 
     return app
