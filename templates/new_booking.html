@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>New Booking</h2>
+<form method="post">
+    Type: <input name="type" required><br>
+    Start Date: <input type="date" name="start_date" required><br>
+    End Date: <input type="date" name="end_date" required><br>
+    Notes: <br><textarea name="notes"></textarea><br>
+    <button type="submit">Submit Request</button>
+</form>
+{% endblock %}
