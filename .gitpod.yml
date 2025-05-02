@@ -1,20 +1,15 @@
-# .gitpod.yml
-
 tasks:
-  - name: Setup PostgreSQL and Python environment
-    init: |
-      sudo apt update && sudo apt install -y postgresql postgresql-contrib python3-pip
+  - init: |
+      sudo apt update && sudo apt install -y postgresql postgresql-contrib
       sudo service postgresql start
-      sudo -u postgres psql -c "CREATE USER dev WITH PASSWORD 'devpass';"
-      sudo -u postgres psql -c "CREATE DATABASE holiday_planner OWNER dev;"
-      pip3 install -r requirements.txt
+      createdb -U postgres holiday_planner || true
     command: |
-      echo "PostgreSQL and environment are ready!"
+      sudo service postgresql start
+      python3 -m venv venv
+      source venv/bin/activate
+      pip install -r requirements.txt
       python3 run.py runserver
 
-ports:
-  - port: 5000
-    onOpen: open-preview
-
 env:
-  DATABASE_URL: postgresql://myuser:masteRh0512.@localhost:5433/mydb
+  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/holiday_planner
+  SECRET_KEY: devsecret

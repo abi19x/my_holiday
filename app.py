@@ -54,7 +54,7 @@ def create_app():
         bookings = get_user_bookings(session["user_id"], app.config["DATABASE_URL"])
         return render_template("dashboard.html", bookings=bookings)
 
-    @app.route("/bookings/new", methods=["GET", "POST"])
+    @app.route("/new_booking", methods=["GET", "POST"])
     def new_booking():
         if "user_id" not in session:
             return redirect("/login")
