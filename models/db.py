@@ -1,28 +1,13 @@
 import psycopg
-from flask import g
 from config import Config
-
 from werkzeug.security import generate_password_hash, check_password_hash
-"""
-conn = None
-
-def init_db(app):
-    global conn
-    conn = psycopg.connect(Config.DATABASE_URL)
-
-    @app.teardown_appcontext
-    def close_connection(exception):
-        if conn:
-            conn.close()
 
 
-def get_db():
-    global conn
-    return conn
-    """
 def init_db(app):
     conn = psycopg.connect(app.config["DATABASE_URL"])
     cur = conn.cursor()
+
+    # Create users table
     cur.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
@@ -31,9 +16,25 @@ def init_db(app):
             password TEXT NOT NULL
         );
     """)
+
+    # Create bookings table
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS bookings (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER REFERENCES users(id),
+            type TEXT NOT NULL,
+            start_date DATE NOT NULL,
+            end_date DATE NOT NULL,
+            duration INTEGER NOT NULL,
+            status TEXT NOT NULL,
+            notes TEXT
+        );
+    """)
+
     conn.commit()
     cur.close()
     conn.close()
+
 
 def get_user_by_email(email, db_url):
     with psycopg.connect(db_url) as conn:
