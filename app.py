@@ -35,8 +35,8 @@ def create_app():
 
     # Dashboard page
     @app.route("/")
-    def dashboard():
-        return render_template("dashboard.html")
+    def index():
+        return render_template("index.html")
     
     # Register page
     @app.route("/register", methods=["GET", "POST"])
