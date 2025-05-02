@@ -45,6 +45,9 @@ def create_app():
                 session["is_admin"] = (user[2] == "admin@example.com")
                 flash("Successfully logged in!", "success")
                 return redirect("/dashboard")
+            else:
+                flash("Invalid email or password", "error")
+                return render_template("login.html")  # stay on login page
             return "Invalid credentials", 401
         return render_template("login.html")
 
