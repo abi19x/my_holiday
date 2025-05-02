@@ -8,15 +8,19 @@
 <body>
     <header>
         <h1>Holiday Planner</h1>
-        {% if session.user %}
-            <p>Welcome, {{ session.user.name }} | 
-                <form action="{{ url_for('auth.logout') }}" method="post" style="display:inline;">
-                    <button type="submit">Logout</button>
-                </form>
-            </p>
-        {% endif %}
+
+        {% if session.get("user_id") %}
+    <p>Welcome, {{ session.get("user_name") }} |
+        <form action="{{ url_for('logout') }}" method="post" style="display:inline;">
+            <button type="submit">Logout</button>
+        </form>
+    </p>
+{% endif %}
+
+
         <hr>
     </header>
+
     <main>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -27,6 +31,7 @@
                 </ul>
             {% endif %}
         {% endwith %}
+
         {% block content %}{% endblock %}
     </main>
 </body>

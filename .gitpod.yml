@@ -1,15 +1,20 @@
 tasks:
   - init: |
+      # Install PostgreSQL client (to interact with PostgreSQL from within Gitpod)
       sudo apt update && sudo apt install -y postgresql postgresql-contrib
+      # Start PostgreSQL service
       sudo service postgresql start
-      createdb -U postgres holiday_planner || true
+      # Create the database if not exists
+      createdb -U postgres holiday_planner
     command: |
-      sudo service postgresql start
-      python3 -m venv venv
-      source venv/bin/activate
-      pip install -r requirements.txt
-      python3 run.py runserver
+      # Start the PostgreSQL Docker container via Docker Compose
+      docker-compose -f /workspace/my_holiday/docker-compose.yml up -d
+      # Wait a bit for PostgreSQL to start properly
+      sleep 10
+      # Execute SQL setup if needed
+      psql -h 127.0.0.1 -U myuser -d mydb -a -f /workspace/my_holiday/scripts/setup.sql
 
-env:
-  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/holiday_planner
-  SECRET_KEY: devsecret
+# Expose port 5433 to allow access to PostgreSQL from outside Gitpod if needed
+ports:
+  - port: 5433
+    onOpen: open-preview

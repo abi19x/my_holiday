@@ -1,5 +1,5 @@
 import psycopg
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, url_for, flash
 from flask_session import Session
 from config import Config
 from models.db import init_db, get_user_by_email
@@ -43,6 +43,7 @@ def create_app():
                 session["user_name"] = user[1]
                 session["user_email"] = user[2]
                 session["is_admin"] = (user[2] == "admin@example.com")
+                flash("Successfully logged in!", "success")
                 return redirect("/dashboard")
             return "Invalid credentials", 401
         return render_template("login.html")
@@ -88,5 +89,12 @@ def create_app():
         new_status = request.form["status"]
         update_booking_status(booking_id, new_status, app.config["DATABASE_URL"])
         return redirect("/admin")
+
+
+    @app.route("/logout", methods=["POST"])
+    def logout():
+        session.clear()
+        flash("You have been logged out.", "error")
+        return redirect(url_for("login"))
 
     return app

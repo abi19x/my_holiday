@@ -74,3 +74,19 @@ ul {
     list-style: none;
     padding-left: 0;
 }
+
+.flashes {
+    list-style-type: none;
+    padding: 0;
+}
+
+.flashes li {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.flashes li.info { background-color: #d9edf7; color: #31708f; }
+.flashes li.success { background-color: #dff0d8; color: #3c763d; }
+.flashes li.error { background-color: #f2dede; color: #a94442; }
+
