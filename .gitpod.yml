@@ -1,7 +1,10 @@
 tasks:
   - init: |
-      # Install PostgreSQL client (to interact with PostgreSQL from within Gitpod)
-      sudo apt update && sudo apt install -y postgresql postgresql-contrib
+      # Install necessary packages
+      sudo apt update && sudo apt install -y postgresql postgresql-contrib wget
+      # Download wait-for-it script
+      wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
+      chmod +x wait-for-it.sh
       # Start PostgreSQL service
       sudo service postgresql start
       # Create the database if not exists
@@ -9,10 +12,12 @@ tasks:
     command: |
       # Start the PostgreSQL Docker container via Docker Compose
       docker-compose -f /workspace/my_holiday/docker-compose.yml up -d
-      # Wait a bit for PostgreSQL to start properly
-      sleep 10
+      # Wait for PostgreSQL to be ready
+      ./wait-for-it.sh 127.0.0.1:5433 --timeout=60 --strict -- echo "PostgreSQL is up and running"
       # Execute SQL setup if needed
       psql -h 127.0.0.1 -U myuser -d mydb -a -f /workspace/my_holiday/scripts/setup.sql
+      # Start the Flask application
+      python3 run.py runserver
 
 # Expose port 5433 to allow access to PostgreSQL from outside Gitpod if needed
 ports:
