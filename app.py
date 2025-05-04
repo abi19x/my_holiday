@@ -37,26 +37,24 @@ def create_app():
         if request.method == "POST":
             email = request.form["email"]
             password = request.form["password"]
-            user = get_user_by_email(email, app.config["DATABASE_URL"])  # This should return (id, name, email, password, role)
 
-        if user and check_password_hash(user[3], password):  # The password is at index 3
-            session["user_id"] = user[0]
-            session["user_name"] = user[1]
-            session["user_email"] = user[2]
-            session["user_role"] = user[4] if len(user) > 4 else "user"  # This is for safe fallback
-            session["is_admin"] = (user[4] == "admin") if len(user) > 4 else False
+            user = get_user_by_email(email, app.config["DATABASE_URL"])  # Should return (id, name, email, password, role)
+            if user and check_password_hash(user[3], password):  # password is at index 3
+                session["user_id"] = user[0]
+                session["user_name"] = user[1]
+                session["user_email"] = user[2]
+                session["user_role"] = user[4] if len(user) > 4 else "user"
+                session["is_admin"] = (user[4] == "admin") if len(user) > 4 else False
 
-            flash("Successfully logged in!", "success")
+                flash("Successfully logged in!", "success")
 
-            if session["is_admin"]:
-                return redirect("/admin")
-            else:
-                return redirect("/dashboard")
-        else:
+                return redirect("/admin" if session["is_admin"] else "/dashboard")
+
             flash("Invalid email or password", "error")
-            return render_template("login.html")  # stay on login page
+            return render_template("login.html")  # Stay on login page
 
-    return render_template("login.html")
+        return render_template("login.html")  # GET request
+
 
     @app.route("/dashboard")
     def dashboard():
