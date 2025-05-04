@@ -42,3 +42,14 @@ def get_user_by_email(email, db_url):
         with conn.cursor() as cur:
             cur.execute("SELECT * FROM users WHERE email = %s;", (email,))
             return cur.fetchone()
+        
+
+def update_booking_status(booking_id, new_status, db_url):
+    import psycopg
+    with psycopg.connect(db_url) as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                "UPDATE bookings SET status = %s WHERE id = %s;",
+                (new_status, booking_id)
+            )
+

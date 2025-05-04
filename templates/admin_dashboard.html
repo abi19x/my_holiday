@@ -15,7 +15,7 @@
         <td>{{ b[6] }}</td>
         <td>{{ b[7] }}</td>
         <td>
-            <form method="post" action="{{ url_for('admin.update_booking', booking_id=b[0]) }}">
+            <form method="post" action="{{ url_for('update_booking', booking_id=b[0]) }}">
                 <select name="status">
                     <option value="Pending" {% if b[7] == 'Pending' %}selected{% endif %}>Pending</option>
                     <option value="Approved" {% if b[7] == 'Approved' %}selected{% endif %}>Approve</option>

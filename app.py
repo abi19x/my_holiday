@@ -86,16 +86,26 @@ def create_app():
     @app.route("/admin", methods=["GET", "POST"])
     def admin_dashboard():
         if not session.get("is_admin"):
+            flash("You must be an admin to access the admin dashboard.", "error")
             return redirect("/login")
+
         bookings = get_all_bookings(app.config["DATABASE_URL"])
         return render_template("admin_dashboard.html", bookings=bookings)
 
-    @app.post("/admin/update/<int:booking_id>")
+    @app.route("/admin/update/<int:booking_id>", methods=["POST"])
     def update_booking(booking_id):
         if not session.get("is_admin"):
+            flash("Unauthorized access", "error")
             return redirect("/login")
-        new_status = request.form["status"]
+        
+        new_status = request.form.get("status")
+
+        if new_status not in ["Pending", "Approved", "Rejected"]:
+            flash("Invalid status selected.", "error")
+            return redirect("/admin")
+
         update_booking_status(booking_id, new_status, app.config["DATABASE_URL"])
+        flash("Booking status updated successfully.", "success")
         return redirect("/admin")
 
 
