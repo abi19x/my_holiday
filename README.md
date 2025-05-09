@@ -8,6 +8,7 @@ My Holiday is a full-stack web application that allows users to book holidays wh
 
 - [Overview](#overview)
 - [Features](#features)
+- [images](#images)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Admin Access](#admin-access)
@@ -35,6 +36,17 @@ Admin users can:
 - Database integration with PostgreSQL
 - Mobile responsive design using Bootstrap
 - Deployment-ready with Heroku support
+
+## Images
+
+<div class="row">
+  <div class="column">
+    <img src="static/images/home_page.jpg" alt="App's homepage" style="width:100%">
+  </div>
+  <div class="column">
+    <img src="static/images/register_page.jpg" alt="App's register page" style="width:100%">
+  </div>
+  </div>
 
 ## Installation
 
