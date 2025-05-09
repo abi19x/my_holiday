@@ -15,6 +15,7 @@ My Holiday is a full-stack web application that allows users to book holidays wh
 - [Technologies Used](#technologies-used)
 - [Deployment](#deployment)
 - [Credits](#credits)
+- [Testing](#testing)
 - [License](#license)
 
 ## Overview
@@ -150,3 +151,30 @@ conn.close()
 - **Werkzeug** - For generating and checking password hash 
 - **Heroku** For documentation and providing a cloud application platform for project deployment
 
+## Testing
+
+- The homepage was validated through the official W3C validator website and there were no bugs detected. See the image below.<br>
+ <div class="column">
+    <img src="static/tests/images/homepage_validated.jpg" alt="Homepage validated" style="width:50%">
+  </div>
+- The register and login pages were validated through the official W3C validator website and there were no errors detected. See the respected images below.<br>
+<div class="column">
+    <img src="static/tests/images/register_page_validated.jpg" alt="Register page validated" style="width:50%">
+  </div>
+  <div class="column">
+    <img src="static/tests/images/login_page_validated.jpg" alt="Login page validated" style="width:50%">
+  </div>
+- The dashboard and admin pages were validated through the official W3C validator website and there were no bugs found in both pages. See the respected images below.<br>
+ <div class="column">
+    <img src="static/tests/images/dashboard_validated.jpg" alt="Dashboard page validated" style="width:50%">
+  </div>
+  <div class="column">
+    <img src="static/tests/images/admin_page_validated.jpg" alt="Admin page validated" style="width:50%">
+  </div>
+- The new booking page was validated through the official W3C validator website and there were no bugs detected. See the image below.<br>
+  <div class="column">
+    <img src="static/tests/images/new_booking_page_validated.jpg" alt="New booking page validated" style="width:50%">
+  </div>
+
+
+  
