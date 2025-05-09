@@ -157,6 +157,7 @@ conn.close()
  <div class="column">
     <img src="static/tests/images/homepage_validated.jpg" alt="Homepage validated" style="width:50%">
   </div>
+
 - The register and login pages were validated through the official W3C validator website and there were no errors detected. See the respected images below.<br>
 <div class="column">
     <img src="static/tests/images/register_page_validated.jpg" alt="Register page validated" style="width:50%">
@@ -164,6 +165,7 @@ conn.close()
   <div class="column">
     <img src="static/tests/images/login_page_validated.jpg" alt="Login page validated" style="width:50%">
   </div>
+
 - The dashboard and admin pages were validated through the official W3C validator website and there were no bugs found in both pages. See the respected images below.<br>
  <div class="column">
     <img src="static/tests/images/dashboard_validated.jpg" alt="Dashboard page validated" style="width:50%">
@@ -171,10 +173,15 @@ conn.close()
   <div class="column">
     <img src="static/tests/images/admin_page_validated.jpg" alt="Admin page validated" style="width:50%">
   </div>
+
 - The new booking page was validated through the official W3C validator website and there were no bugs detected. See the image below.<br>
   <div class="column">
     <img src="static/tests/images/new_booking_page_validated.jpg" alt="New booking page validated" style="width:50%">
   </div>
 
+- I have confirmed multiple times that the main page is linked rightfully to the custom CSS file. I can now confirm that the custom CSS file in this project passes through the official W3 Jigsaw CSS validor with no issues. See the screenshot below. 
+<div class="column">
+    <img src="static/tests/images/css_validated.jpg" alt="Custom CSS file validated" style="width:50%">
+  </div>
 
   
