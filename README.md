@@ -41,19 +41,28 @@ Admin users can:
 
 <div class="row">
   <div class="column">
-    <img src="static/images/home_page.jpg" alt="App's homepage" style="width:50%">
+    <img src="static/images/home_page.jpg" alt="App's homepage" style="width:70%">
   </div>
   <div class="column">
-    <img src="static/images/register_page.jpg" alt="App's register page" style="width:50%">
+    <img src="static/images/register_page.jpg" alt="App's register page" style="width:70%">
   </div>
   </div>
 
   <div class="row">
   <div class="column">
-    <img src="static/images/login_page.jpg" alt="App's login page" style="width:49%">
+    <img src="static/images/login_page.jpg" alt="App's login page" style="width:70%">
   </div>
   <div class="column">
-    <img src="static/images/dashboard_page.jpg" alt="App's dashboard page" style="width:49%">
+    <img src="static/images/dashboard_page.jpg" alt="App's dashboard page" style="width:70%">
+  </div>
+  </div>
+
+  <div class="row">
+  <div class="column">
+    <img src="static/images/new_booking_page.jpg" alt="App's new booking page" style="width:70%">
+  </div>
+  <div class="column">
+    <img src="static/images/admin_page.jpg" alt="App's admin page" style="width:70%">
   </div>
   </div>
 
