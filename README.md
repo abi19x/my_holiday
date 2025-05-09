@@ -48,6 +48,15 @@ Admin users can:
   </div>
   </div>
 
+  <div class="row">
+  <div class="column">
+    <img src="static/images/login_page.jpg" alt="App's login page" style="width:49%">
+  </div>
+  <div class="column">
+    <img src="static/images/dashboard_page.jpg" alt="App's dashboard page" style="width:49%">
+  </div>
+  </div>
+
 ## Installation
 
 1. Clone the repository:
