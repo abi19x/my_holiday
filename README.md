@@ -8,7 +8,7 @@ My Holiday is a full-stack web application that allows users to book holidays wh
 
 - [Overview](#overview)
 - [Features](#features)
-- [images](#images)
+- [Images](#images)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Admin Access](#admin-access)
@@ -41,10 +41,10 @@ Admin users can:
 
 <div class="row">
   <div class="column">
-    <img src="static/images/home_page.jpg" alt="App's homepage" style="width:100%">
+    <img src="static/images/home_page.jpg" alt="App's homepage" style="width:50%">
   </div>
   <div class="column">
-    <img src="static/images/register_page.jpg" alt="App's register page" style="width:100%">
+    <img src="static/images/register_page.jpg" alt="App's register page" style="width:50%">
   </div>
   </div>
 
