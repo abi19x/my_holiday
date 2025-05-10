@@ -16,6 +16,7 @@ My Holiday is a full-stack web application that allows users to book holidays wh
 - [Deployment](#deployment)
 - [Credits](#credits)
 - [Testing](#testing)
+- [Automative-testing](#automative-testing)
 - [License](#license)
 
 ## Overview
@@ -183,5 +184,30 @@ conn.close()
 <div class="column">
     <img src="static/tests/images/css_validated.jpg" alt="Custom CSS file validated" style="width:50%">
   </div>
+
+
+## Automative-testing
+
+Automative testing framework that is designed to make sure correctness of any codebase written by developers. This particular framework will allow you to write tests with an approachable, well known and highly interactive API that gives you results quickly.<br>
+
+Manual website testing is conducted by human testers manually checking the website through interaction with the site developed. Testers usually follow test cases but they can also explore freely. Manual testing is best for usability testing, exploratory testing and UI validation. On the other hand automative website testing uses scripts and software tools like Selenium or Cypress. This type of testing can run tests on multiple browsers and devices automatically. Automative website testing is best for regression testing, load testing and repetitive tasks.<br>
+
+Since 99% of the language used in this project was Python, it is only rational to include a Python testing methods to detect if any errors are presents in the functions and semantics of the files in my project.
+
+- All forms in the register and login pages have passed the automative tests with no erros detected. 
+<div class="column">
+    <img src="static/tests/images/automated_test_forms.jpg" alt="automative tests for all forms validated" style="width:50%">
+  </div>
+
+- The new booking page for users to submit their holiday period after they have loged in was validated with aumative tests.
+<div class="column">
+    <img src="static/tests/images/automated_test_new_booking.jpg" alt="automative tests for the new booking page validated" style="width:50%">
+  </div>
+
+- The admin page to view and approve the holiday period requested by users was validated in automative testing method with no bugs found. 
+<div class="column">
+    <img src="static/tests/images/automated_test_admin.jpg" alt="automative tests for the admin page validated" style="width:50%">
+  </div>
+
 
   
