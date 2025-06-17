@@ -1,4 +1,4 @@
-import psycopg
+import sqlite3 
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 from flask_session import Session
 from config import Config
@@ -25,10 +25,13 @@ def create_app():
             password = request.form["password"]
             hashed_pw = generate_password_hash(password)
 
-            with psycopg.connect(app.config["DATABASE_URL"]) as conn:
-                with conn.cursor() as cur:
-                    cur.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s);", (name, email, hashed_pw))
-                    conn.commit()
+            db_path = app.config["DATABASE_URL"].split("///")[-1]
+            conn = sqlite3.connect(db_path)
+            cur = conn.cursor()
+            cur.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?);", (name, email, hashed_pw))
+            conn.commit()
+            conn.close()
+
             return redirect("/login")
         return render_template("register.html")
 
@@ -107,6 +110,17 @@ def create_app():
         update_booking_status(booking_id, new_status, app.config["DATABASE_URL"])
         flash("Booking status updated successfully.", "success")
         return redirect("/admin")
+
+    @app.route("/admin/delete/<int:booking_id>", methods=["POST"])
+    def delete_booking(booking_id):
+        if not session.get("is_admin"):
+            flash("Unauthorized access", "error")
+            return redirect("/login")
+
+        delete_booking_by_id(booking_id, app.config["DATABASE_URL"])  # You’ll define this function
+        flash("Booking request deleted successfully.", "success")
+        return redirect("/admin")
+
 
 
     @app.route("/logout", methods=["POST"])
