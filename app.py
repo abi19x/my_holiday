@@ -7,6 +7,7 @@ from models.booking import get_user_bookings, create_booking, get_all_bookings, 
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -41,23 +42,21 @@ def create_app():
             email = request.form["email"]
             password = request.form["password"]
 
-            user = get_user_by_email(email, app.config["DATABASE_URL"])  # Should return (id, name, email, password, role)
-            if user and check_password_hash(user[3], password):  # password is at index 3
-                session["user_id"] = user[0]
-                session["user_name"] = user[1]
-                session["user_email"] = user[2]
-                session["user_role"] = user[4] if len(user) > 4 else "user"
-                session["is_admin"] = (user[4] == "admin") if len(user) > 4 else False
+            user = get_user_by_email(email, app.config["DATABASE_URL"])  # Should return dict
+
+            if user and check_password_hash(user["password"], password):
+                session["user_id"] = user["id"]
+                session["user_name"] = user.get("name", "")
+                session["user_email"] = user["email"]
+                session["user_role"] = user.get("role", "user")
+                session["is_admin"] = user.get("role", "") == "admin"
 
                 flash("Successfully logged in!", "success")
-
                 return redirect("/admin" if session["is_admin"] else "/dashboard")
 
             flash("Invalid email or password", "error")
-            return render_template("login.html")  # Stay on login page
 
-        return render_template("login.html")  # GET request
-
+        return render_template("login.html")
 
     @app.route("/dashboard")
     def dashboard():
