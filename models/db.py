@@ -84,6 +84,46 @@ def get_user_by_email(email, db_url):
         return dict(user)  # convert sqlite3.Row to dict
     return None
 
+def create_booking(user_id, booking_type, start_date, end_date, notes, duration, db_url):
+    db_path = db_url.split("///")[-1]
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()
+    cur.execute("""
+        INSERT INTO bookings (user_id, type, start_date, end_date, notes, duration, status)
+        VALUES (?, ?, ?, ?, ?, ?, 'pending')
+    """, (user_id, booking_type, start_date, end_date, notes, duration))
+    conn.commit()
+    cur.close()
+    conn.close()
+
+def get_booking_by_id(booking_id, db_url):
+    db_path = db_url.split("///")[-1]
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM bookings WHERE id = ?", (booking_id,))
+    booking = cur.fetchone()
+    conn.close()
+    return dict(booking) if booking else None
+
+def update_booking_record(booking_id, booking_type, start_date, end_date, notes, duration, db_url):
+    import sqlite3
+
+    db_path = db_url.split("///")[-1]
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()
+
+    cur.execute("""
+        UPDATE bookings
+        SET type = ?, start_date = ?, end_date = ?, notes = ?, duration = ?
+        WHERE id = ?
+    """, (booking_type, start_date, end_date, notes, duration, booking_id))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+
 def update_booking_status(booking_id, new_status, db_url):
     if not isinstance(db_url, str):
         raise ValueError("Invalid database URL provided to update_booking_status()")

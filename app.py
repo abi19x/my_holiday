@@ -2,9 +2,10 @@ import sqlite3
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 from flask_session import Session
 from config import Config
-from models.db import init_db, get_user_by_email, delete_booking_by_id
-from models.booking import get_user_bookings, create_booking, get_all_bookings, update_booking_status
+from models.db import init_db, get_user_by_email, delete_booking_by_id, get_booking_by_id, update_booking_record, create_booking
+from models.booking import get_user_bookings, get_all_bookings, update_booking_status
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 
 
@@ -69,21 +70,60 @@ def create_app():
     def new_booking():
         if "user_id" not in session:
             return redirect("/login")
+
         if request.method == "POST":
             booking_type = request.form["type"]
             start_date = request.form["start_date"]
             end_date = request.form["end_date"]
             notes = request.form.get("notes", "")
+
+            # Calculate duration
+            start_date_obj = datetime.strptime(start_date, "%Y-%m-%d")
+            end_date_obj = datetime.strptime(end_date, "%Y-%m-%d")
+            duration = (end_date_obj - start_date_obj).days + 1  # +1 to include both start and end
+
             create_booking(
                 user_id=session["user_id"],
                 booking_type=booking_type,
                 start_date=start_date,
                 end_date=end_date,
                 notes=notes,
+                duration=duration,
                 db_url=app.config["DATABASE_URL"]
             )
+           
             return redirect("/dashboard")
         return render_template("new_booking.html")
+    
+    @app.route("/edit/<int:booking_id>", methods=["GET", "POST"])
+    def edit_booking(booking_id):
+        if "user_id" not in session:
+            flash("Please log in.", "error")
+            return redirect("/login")
+
+        booking = get_booking_by_id(booking_id, app.config["DATABASE_URL"])
+
+        # Optional: restrict access only to the booking owner
+        if booking["user_id"] != session["user_id"]:
+            flash("Unauthorized", "error")
+            return redirect("/dashboard")
+
+        if request.method == "POST":
+            type = request.form["type"]
+            start_date = request.form["start_date"]
+            end_date = request.form["end_date"]
+            notes = request.form["notes"]
+
+            # Calculate duration
+            start_date_obj = datetime.strptime(start_date, "%Y-%m-%d")
+            end_date_obj = datetime.strptime(end_date, "%Y-%m-%d")
+            duration = (end_date_obj - start_date_obj).days + 1  # +1 to include both start and end
+
+            update_booking_record(booking_id, type, start_date, end_date, notes, duration, app.config["DATABASE_URL"])
+            flash("Booking updated", "success")
+            return redirect("/dashboard")
+
+        return render_template("edit_booking.html", booking=booking)
 
     @app.route("/admin", methods=["GET", "POST"])
     def admin_dashboard():

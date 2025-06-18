@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Edit Booking</h2>
+<form method="post">
+    Type: <input name="type" value="{{ booking['type'] }}" required><br>
+    Start Date: <input type="date" name="start_date" value="{{ booking['start_date'] }}" required><br>
+    End Date: <input type="date" name="end_date" value="{{ booking['end_date'] }}" required><br>
+    Notes: <br><textarea name="notes">{{ booking['notes'] }}</textarea><br>
+    <button type="submit">Update</button>
+</form>
+{% endblock %}
