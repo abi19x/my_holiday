@@ -34,3 +34,17 @@ def update_booking(booking_id):
 
     flash('Booking status updated.', 'success')
     return redirect(url_for('admin.admin_dashboard'))
+
+@admin_bp.route('/delete/<int:booking_id>', methods=['POST'])
+def delete_booking(booking_id):
+    if 'user' not in session or not session['user']['is_admin']:
+        flash("Unauthorized access", "error")
+        return redirect(url_for('auth.login'))
+
+    conn = get_db()
+    with conn.cursor() as cur:
+        cur.execute('DELETE FROM bookings WHERE id = %s', (booking_id,))
+        conn.commit()
+
+    flash("Booking deleted successfully.", "success")
+    return redirect(url_for('admin.admin_dashboard'))

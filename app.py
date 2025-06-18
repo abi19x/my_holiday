@@ -2,7 +2,7 @@ import sqlite3
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 from flask_session import Session
 from config import Config
-from models.db import init_db, get_user_by_email
+from models.db import init_db, get_user_by_email, delete_booking_by_id
 from models.booking import get_user_bookings, create_booking, get_all_bookings, update_booking_status
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -116,7 +116,8 @@ def create_app():
             flash("Unauthorized access", "error")
             return redirect("/login")
 
-        delete_booking_by_id(booking_id, app.config["DATABASE_URL"])  # You’ll define this function
+        print(f"Deleting booking ID: {booking_id}")  # Debug line
+        delete_booking_by_id(booking_id, app.config["DATABASE_URL"]) 
         flash("Booking request deleted successfully.", "success")
         return redirect("/admin")
 

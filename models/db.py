@@ -109,30 +109,10 @@ def update_booking_status(booking_id, new_status, db_url):
         conn.close()
 
 def delete_booking_by_id(booking_id, db_url):
-    if not isinstance(db_url, str):
-        raise ValueError("Invalid database URL provided to delete_booking_by_id()")
-
+    import sqlite3
     db_path = db_url.split("///")[-1]
-
-    try:
-        conn = sqlite3.connect(db_path)
-        cur = conn.cursor()
-
-        cur.execute(
-            "DELETE FROM bookings WHERE id = ?;",
-            (booking_id,)
-        )
-
-        conn.commit()
-
-        if cur.rowcount == 0:
-            print(f"No booking found with ID: {booking_id}")
-        else:
-            print(f"Booking with ID {booking_id} deleted successfully.")
-
-    except sqlite3.Error as e:
-        print(f"Database error occurred while deleting booking: {e}")
-        raise
-
-    finally:
-        conn.close()
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()
+    cur.execute("DELETE FROM bookings WHERE id = ?", (booking_id,))
+    conn.commit()
+    conn.close()
