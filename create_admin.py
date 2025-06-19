@@ -1,12 +1,33 @@
-from models.db import create_user
-from config import Config
+from werkzeug.security import generate_password_hash
+import psycopg2
 
-#admin user
-name = "Abi19x"
+conn = psycopg2.connect(
+    dbname="mydb",
+    user="myuser",
+    password="masteRh0512.",
+    host="localhost",
+    port="5433"
+)
+cur = conn.cursor()
+
+# Replace with your desired admin credentials
+name = "Admin"
 email = "k9ja1xwk@students.codeinstitute.net"
 password = "masteRh0512."
+hashed_pw = generate_password_hash(password)
 role = "admin"
 
-create_user(name, email, password, role, Config.DATABASE_URL)
+# Check if admin exists
+cur.execute("SELECT * FROM users WHERE email = %s", (email,))
+if cur.fetchone():
+    print("Admin already exists.")
+else:
+    cur.execute("""
+        INSERT INTO users (name, email, password, role)
+        VALUES (%s, %s, %s, %s)
+    """, (name, email, hashed_pw, role))
+    conn.commit()
+    print("Admin created.")
 
-print("Admin user created successfully!")
+cur.close()
+conn.close()

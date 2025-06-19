@@ -1,4 +1,6 @@
-import sqlite3 
+import os
+import psycopg2
+from urllib.parse import urlparse
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 from flask_session import Session
 from config import Config
@@ -27,14 +29,37 @@ def create_app():
             password = request.form["password"]
             hashed_pw = generate_password_hash(password)
 
-            db_path = app.config["DATABASE_URL"].split("///")[-1]
-            conn = sqlite3.connect(db_path)
-            cur = conn.cursor()
-            cur.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?);", (name, email, hashed_pw))
-            conn.commit()
-            conn.close()
+            db_url = app.config["DATABASE_URL"]
+            result = urlparse(db_url)
+            username = result.username
+            password_db = result.password
+            database = result.path.lstrip("/")
+            hostname = result.hostname
+            port = result.port
+
+            try:
+                conn = psycopg2.connect(
+                    dbname=database,
+                    user=username,
+                    password=password_db,
+                    host=hostname,
+                    port=port
+                )
+                cur = conn.cursor()
+                cur.execute(
+                    "INSERT INTO users (name, email, password) VALUES (%s, %s, %s);",
+                    (name, email, hashed_pw)
+                )
+                conn.commit()
+            except psycopg2.Error as e:
+                print(f"Database error during registration: {e}")
+                # handle error, maybe flash a message or abort
+            finally:
+                if conn:
+                    conn.close()
 
             return redirect("/login")
+
         return render_template("register.html")
 
     @app.route("/login", methods=["GET", "POST"])
