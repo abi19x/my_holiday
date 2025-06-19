@@ -154,6 +154,88 @@ conn.close()
 
 ## Testing
 
+<table style="width:100%">
+  <tr>
+    <th>Testing environment</th>
+    <th>Testing tool</th>
+    <th>Expected outcome</th>
+    <th>Errors reported</th>
+    <th>Further actions</th>
+  </tr>
+
+  <tr>
+  <td>Home Page</td>
+  <td>The official W3C validator website</td>
+  <td>The page to function as intended, to display and render two internal links;the register and login links.</td>
+  <td>Two different elements were named with an identical Ids.</td>
+  <td>The reported bug was fixed by renaming the Id of one of the elements.</td>
+  </tr>
+
+   <tr>
+  <td>Register Page</td>
+  <td>The official W3C validator website</td>
+  <td>The page to function as intended, to display and render a form asking users to provide name, email and password. There is also a register button and a link to go back to the home page.</td>
+  <td>No defects presented</td>
+  <td>No further action required.</td>
+  </tr>
+
+  <tr>
+  <td>Login Page</td>
+  <td>The official W3C validator website</td>
+  <td>The page to function as intended, to display and render a form asking users to provide email and password. There is also a login button and a link to go back to the home page.</td>
+  <td>No defects presented</td>
+  <td>No further action required.</td>
+  </tr>
+
+  <tr>
+  <td>User Dashboard</td>
+  <td>The official W3C validator website</td>
+  <td>The page to function as intended, to display existing bookings or/and enable users to create a new booking. There is also a logout button and a link to go back to the login page. The page also inludes edit and delete buttons to aid the user manipulate data.</td>
+  <td>This was first created with sqlite3, a relational database system that embeds into applications directly. This has caused an error and prevented the app from being deployed on Heroku.</td>
+  <td>The entire relational database system was changed into psycopg2, which is PostgreSQL database for python programing language. This enabled me to successfully deploy the app on Heroku.</td>
+  </tr>
+
+  <tr>
+  <td>Admin Dashboard</td>
+  <td>The official W3C validator website</td>
+  <td>The page to function as intended, to display existing bookings of all registered users of the app. There is also a logout button and a link to go back to the login page. The page also inludes status and action columns to aid the admin manipulate data.</td>
+  <td>This was first created with sqlite3, a relational database system that embeds into applications directly. This has caused an error and prevented the app from being deployed on Heroku.</td>
+  <td>The entire relational database system was changed into psycopg2, which is PostgreSQL database for python programing language. This enabled me to successfully deploy the app on Heroku.</td>
+  </tr>
+
+   <tr>
+  <td>CSS custom page</td>
+  <td>W3 Jigsaw CSS validor</td>
+  <td>Apply desired styles and layouts to selected elements, as well as enhanced readability and semantics.</td>
+  <td>No defects presented.</td>
+  <td>No further action required.</td>
+  </tr>
+
+  <tr>
+  <td>Internal links</td>
+  <td>All buttons and linked explored and double checked in all pages.</td>
+  <td>Users not to encounter broken links when intending to prompt desired actions in the website.</td>
+  <td>No bugs detected whatsoever.</td>
+  <td>No action required.</td>
+  </tr>
+
+  <tr>
+  <td>Responsiveness</td>
+  <td>Using the latest version of bootstrap and media queries on the CSS custom page to ensure a consistent user experience whether accessed on a desktop computer, tablet or mobile phones</td>
+  <td>So that users have the ability to adjust and adapt automatically to all media screen sizes.</td>
+  <td>No errors.</td>
+  <td>Not needed.</td>
+  </tr>
+
+  <tr>
+  <td>JavaScript file</td>
+  <td>The offical JSLint code analysis tool</td>
+  <td>To statically and automatically analyse if the JavaScript source code we provided for our project complies with coding rules.</td>
+  <td>Two different functions were named with an identical name, and the second function was over-writing the first.</td>
+  <td>The name for the second function was changed and no further action was required.</td>
+  </tr>
+  </table>
+
 - The homepage was validated through the official W3C validator website and there were no bugs detected. See the image below.<br>
  <div class="column">
     <img src="static/tests/images/homepage_validated.jpg" alt="Homepage validated" style="width:50%">
