@@ -124,6 +124,22 @@ def create_app():
             return redirect("/dashboard")
 
         return render_template("edit_booking.html", booking=booking)
+    
+    @app.route("/delete/<int:booking_id>", methods=["POST"])
+    def delete_user_booking(booking_id):
+        if "user_id" not in session:
+            flash("Please log in.", "error")
+            return redirect("/login")
+
+        booking = get_booking_by_id(booking_id, app.config["DATABASE_URL"])
+        if not booking or booking["user_id"] != session["user_id"]:
+            flash("Unauthorized action.", "error")
+            return redirect("/dashboard")
+
+        delete_booking_by_id(booking_id, app.config["DATABASE_URL"])
+        flash("Booking deleted successfully.", "success")
+        return redirect("/dashboard")
+
 
     @app.route("/admin", methods=["GET", "POST"])
     def admin_dashboard():
